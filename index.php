@@ -18,14 +18,12 @@ if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 } 
 
-$user = $_POST['user'];
-
 // --------------------------- functions -----------------------------
 function check_auth(){
-    $sql = "SELECT * FROM users WHERE username='$user'";
+    $sql = "SELECT * FROM users WHERE username='". $_POST['user'] . "'";
     $re = $db->query($sql);
     if($re->num_rows > 0) $row = $re->fetch_assoc(); else die("No User!");
-    if($row['password'] != $_POST['passwd']) die("Password Wrong.")
+    if($row['password'] != $_POST['passwd']) die("Password Wrong.");
 }
 
 // --------------------------- Debug ---------------------------------
@@ -62,13 +60,13 @@ $re = [
 
 switch ($_POST['action']) {
     case 'get_user_info':
-        $sql = "SELECT * FROM users WHERE username='$user'";
+        $sql = "SELECT * FROM users WHERE username='". $_POST['user'] . "'";
         $re = $db->query($sql);
-        $re.data = $re->fetch_assoc();
+        $re['data'] = $re->fetch_assoc();
         break;
     
     default:
-        die("Unknown.")
+        die("Unknown.");
         break;
 }
 
