@@ -50,6 +50,7 @@ if($_POST['action'] == 'exe'){
     } else {
         echo "Error: " . $sql . "<br>" . $db->error;
     }
+    die();
 }
 // --------------------------- Work ----------------------------------
 check_auth();
