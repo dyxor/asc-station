@@ -82,7 +82,7 @@ switch ($_POST['action']) {
         break;
 
     case 'send_cmd':
-        if(!(isset($_POST['cmd_type']) and isset($_POST['tar_lock']) isset($_POST['tar_user'])))die("Bad command!");
+        if(!(isset($_POST['cmd_type']) and isset($_POST['tar_lock']) and isset($_POST['tar_user'])))die("Bad command!");
         $_POST['cmd_type'] = ($_POST['cmd_type'] == 'grant'? 1 : 2);
         $sql = "SELECT * FROM user_lock WHERE username='". $_POST['user'] . "' AND lockname='". $_POST['tar_lock']. "'";
         $re = $db->query($sql);
