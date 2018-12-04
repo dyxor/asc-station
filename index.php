@@ -1,10 +1,10 @@
 <?php
-// --------------------------- functions -----------------------------------
+// --------------------------- functions -----------------------------
 function pr($x){
   echo "<pre>", var_dump($x), "</pre>";
 }
 
-// --------------------------- check --------------------------------
+// --------------------------- check ---------------------------------
 if(!isset($_POST['action']))die("Refused.");
 
 // --------------------------- init ----------------------------------
@@ -18,11 +18,11 @@ $dbname = "smart_lock";
 
 $db = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
 } 
-// --------------------------------------------------------------------
-if(isset($_POST['show']) && $_POST['show'] == 'tabako'){
+// --------------------------- Debug ---------------------------------
+if(isset($_POST['show']) $_POST['show'] == 'tabako'){
     $tables = array('users', 'user_lock', 'cmds');
 
     foreach ($tables as $tab) {
@@ -30,12 +30,20 @@ if(isset($_POST['show']) && $_POST['show'] == 'tabako'){
         $re = $db->query($sql);
         if($re->num_rows > 0){
             while($row = $re->fetch_assoc()) {
-                pr($row);
+                var_dump($row);
             }
         }
-        echo "<br><br>";
     }
 }
 
-$sql = $_POST['order'];
+if($_POST['action'] == 'exe'){
+    $sql = $_POST['order'];
+    if ($db->query($sql) === TRUE) {
+        echo "Execute Successfully.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $db->error;
+    }
+}
+// --------------------------- Work ----------------------------------
+
 
