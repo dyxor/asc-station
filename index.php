@@ -22,7 +22,7 @@ if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 } 
 // --------------------------- Debug ---------------------------------
-if(isset($_POST['show']) $_POST['show'] == 'tabako'){
+if(isset($_POST['show']) && $_POST['show'] == 'tabako'){
     $tables = array('users', 'user_lock', 'cmds');
 
     foreach ($tables as $tab) {
@@ -34,6 +34,7 @@ if(isset($_POST['show']) $_POST['show'] == 'tabako'){
             }
         }
     }
+    die();
 }
 
 if($_POST['action'] == 'exe'){
