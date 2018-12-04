@@ -1,14 +1,9 @@
 <?php
-// --------------------------- functions -----------------------------
-function pr($x){
-  echo "<pre>", var_dump($x), "</pre>";
-}
-
 // --------------------------- check ---------------------------------
 if(!isset($_POST['action']))die("Refused.");
 
 // --------------------------- init ----------------------------------
-header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 $servername = "localhost";
@@ -21,6 +16,16 @@ $db = new mysqli($servername, $username, $password, $dbname);
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 } 
+
+// --------------------------- functions -----------------------------
+function check_auth(){
+    if(!(isset($_POST['user']) and isset($_POST['passwd']))) die("Unauthorized.");
+    $sql = "SELECT * FROM users WHERE username='$_POST["user"]'";
+    $re = $db->query($sql);
+    if($re->num_rows > 0) $row = $re->fetch_assoc(); else die("No User!");
+    if($row['password'] != $_POST['passwd']) die("Password Wrong.")
+}
+
 // --------------------------- Debug ---------------------------------
 if(isset($_POST['show']) && $_POST['show'] == 'tabako'){
     $tables = array('users', 'user_lock', 'cmds');
@@ -46,5 +51,23 @@ if($_POST['action'] == 'exe'){
     }
 }
 // --------------------------- Work ----------------------------------
+check_auth();
 
+$re = [
+    "status" => 0,
+    "data" => 0,
+];
 
+switch ($_POST['action']) {
+    case 'get_user_info':
+        $sql = "SELECT * FROM users WHERE username='$_POST["user"]'";
+        $re = $db->query($sql);
+        $re.data = $re->fetch_assoc();
+        break;
+    
+    default:
+        die("Unknown.")
+        break;
+}
+
+echo json_encode($re);
