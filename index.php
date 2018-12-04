@@ -112,13 +112,28 @@ switch ($_POST['action']) {
         $row = $re->fetch_assoc();
         $epoch = $row['epoch'];
 
-        $sql = "SELECT type,target FROM cmds WHERE lockname='". $_POST['tar_lock']. "' AND id>". $epoch . " ORDER BY id";
+        $sql = "SELECT id,type,target FROM cmds WHERE lockname='". $_POST['tar_lock']. "' AND id>". $epoch . " ORDER BY id";
         $re = $db->query($sql);
         $result['data'] = [];
         while($row = $re->fetch_assoc()){
             $result['data'][] = $row;
         }
-        $result['data'][] = ['type'=>3, 'target'=>$_POST['user']];
+        $result['data'][] = ['id' => -1, 'type'=>3, 'target'=>$_POST['user']];      // activation
+        break;
+
+    case 'update_epoch':
+        if(!(isset($_POST['epoch']) and isset($_POST['tar_lock'])))die("Bad command!");
+        $sql = "SELECT epoch FROM user_lock WHERE lockname='". $_POST['tar_lock']. "'";
+        $re = $db->query($sql);
+        $row = $re->fetch_assoc();
+        $epoch = intval($row['epoch']);
+        if($_POST['epoch'] > $epoch){
+            $sql = "UPDATE user_lock SET epoch=". $epoch . "WHERE lockname='". $_POST['tar_lock']. "'";
+            if(!$db->query($sql)){
+                $result['status'] = 1;
+                $result['data'] = "Update failed.";
+            }
+        }
         break;
 
     default:
