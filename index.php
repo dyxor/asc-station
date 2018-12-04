@@ -1,9 +1,9 @@
 <?php
-function log($x){
+function pr($x){
   echo "<pre>".var_dump($x)."</pre>";
 }
 
-log($_SERVER);
-log($_GET);
-log($_POST);
+pr($_SERVER);
+pr($_GET);
+pr($_POST);
 
