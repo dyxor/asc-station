@@ -82,9 +82,9 @@ switch ($_POST['action']) {
         break;
 
     case 'send_cmd':
-        if(!(isset($_POST['cmd_type']) and isset($_POST['target'])))die("Bad command!");
+        if(!(isset($_POST['cmd_type']) and isset($_POST['tar_lock']) isset($_POST['tar_user'])))die("Bad command!");
         $_POST['cmd_type'] = ($_POST['cmd_type'] == 'grant'? 1 : 2);
-        $sql = "SELECT * FROM user_lock WHERE username='". $_POST['user'] . "' AND lockname='". $_POST['target']. "'";
+        $sql = "SELECT * FROM user_lock WHERE username='". $_POST['user'] . "' AND lockname='". $_POST['tar_lock']. "'";
         $re = $db->query($sql);
         if($re->num_rows<1){
             $result['status'] = 1;
@@ -92,8 +92,7 @@ switch ($_POST['action']) {
             break;
         }
 
-        $sql = "INSERT INTO cmds (username, lockname, type)VALUES('". $_POST['user']. "','". $_POST['target']. "',". $_POST['cmd_type']. ")";
-	die($sql);
+        $sql = "INSERT INTO cmds (username, lockname, type, target)VALUES('". $_POST['user']. "','". $_POST['tar_lock']. "',". $_POST['cmd_type']. ",'". $_POST['tar_user']. "')";
         if(!$db->query($sql)){
             $result['status'] = 1;
             $result['data'] = "Send failed.";
