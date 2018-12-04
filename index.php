@@ -71,6 +71,7 @@ switch ($_POST['action']) {
         $sql = "SELECT * FROM user_lock WHERE username='". $_POST['user'] . "'";
         $re = $db->query($sql);
         if($re->num_rows>0){
+	    $result['data'] = [];
             while($row = $re->fetch_assoc()){
                 $result['data'][] = $row;
             }
