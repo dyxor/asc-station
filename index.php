@@ -67,6 +67,19 @@ switch ($_POST['action']) {
         $result['data'] = $re->fetch_assoc();
         break;
     
+    case 'get_user_lock':
+        $sql = "SELECT * FROM user_lock WHERE username='". $_POST['user'] . "'";
+        $re = $db->query($sql);
+        if($re->num_rows>0){
+            while($row = $re->fetch_assoc()){
+                $result['data'][] = $row;
+            }
+        }else{
+            $result['status'] = 1;
+            $result['data'] = "No results.";
+        }     
+        break;
+
     default:
         die("Unknown.");
         break;
