@@ -8,6 +8,5 @@ header("Content-Type: application/json");
 
 $name = $_GET['name'];
 
-
-$arr = array('a' => 1, 'b' => 2, 'c' => 666, 'd' => 4, 'e' => 5);
-echo json_encode($arr);
+if($_SERVER['REQUEST_METHOD'] == 'GET') echo json_encode($_GET);
+else echo json_encode($_POST);
