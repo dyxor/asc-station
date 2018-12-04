@@ -99,6 +99,27 @@ switch ($_POST['action']) {
         }
         break;
 
+    case 'retrieve_cmd':
+        if(!isset($_POST['tar_lock']))die("Bad command!");
+        $sql = "SELECT epoch FROM user_lock WHERE lockname='". $_POST['tar_lock']. "'";
+        $re = $db->query($sql);
+        if($re->num_rows<1){
+            $result['status'] = 1;
+            $result['data'] = "No such lock.";
+            break;
+        }
+        $row = $re->fetch_assoc();
+        $epoch = $row['epoch'];
+
+        $sql = "SELECT type,target FROM cmds WHERE lockname='". $_POST['tar_lock']. "' AND id>". $epoch . " ORDER BY id";
+        $re = $db->query($sql);
+        $result['data'] = [];
+        while($row = $re->fetch_assoc()){
+            $result['data'][] = $row;
+        }
+        $result['data'][] = ['type':3, 'target':$_POST['user']];
+        break;
+
     default:
         die("Unknown.");
         break;
