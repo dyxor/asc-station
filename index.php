@@ -35,9 +35,10 @@ if(isset($_POST['show']) && $_POST['show'] == 'tabako'){
         $sql = "SELECT * FROM ". $tab;
         $re = $db->query($sql);
         if($re->num_rows > 0){
-            while($row = $re->fetch_assoc()) {
-                var_dump($row);
-            }
+	  var_dump($tab);
+	  while($row = $re->fetch_assoc()){
+	    var_dump($row);
+	  }
         }
     }
     die();
@@ -117,7 +118,7 @@ switch ($_POST['action']) {
         while($row = $re->fetch_assoc()){
             $result['data'][] = $row;
         }
-        $result['data'][] = ['type':3, 'target':$_POST['user']];
+        $result['data'][] = ['type'=>3, 'target'=>$_POST['user']];
         break;
 
     default:
