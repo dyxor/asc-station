@@ -1,12 +1,24 @@
 <?php
+// ---------------------------- functions -----------------------------------
 function pr($x){
   echo "<pre>", var_dump($x), "</pre>";
 }
 
+// --------------------------- check --------------------------------
+if(!isset($_POST['action']))die("Refused.");
+
+
+// --------------------------------------------------------------------
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
-$name = $_GET['name'];
+$servername = "localhost";
+$username = "root";
+$password = "1wsx@QAZ";
 
-if($_SERVER['REQUEST_METHOD'] == 'GET') echo json_encode($_GET);
-else echo json_encode($_POST);
+$db = new mysqli($servername, $username, $password);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+echo "Connected successfully";
