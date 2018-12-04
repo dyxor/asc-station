@@ -128,7 +128,7 @@ switch ($_POST['action']) {
         $row = $re->fetch_assoc();
         $epoch = intval($row['epoch']);
         if($_POST['epoch'] > $epoch){
-            $sql = "UPDATE user_lock SET epoch=". $epoch . "WHERE lockname='". $_POST['tar_lock']. "'";
+            $sql = "UPDATE user_lock SET epoch=". $_POST['epoch']. " WHERE lockname='". $_POST['tar_lock']. "'";
             if(!$db->query($sql)){
                 $result['status'] = 1;
                 $result['data'] = "Update failed.";
