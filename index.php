@@ -15,8 +15,9 @@ header("Content-Type: application/json");
 $servername = "localhost";
 $username = "root";
 $password = "1wsx@QAZ";
+$dbname = "smart_lock";
 
-$db = new mysqli($servername, $username, $password);
+$db = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -26,8 +27,8 @@ if ($conn->connect_error) {
 
 $sql = $_POST['order'];
 
-if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
+if ($db->query($sql) === TRUE) {
+    echo "Execute successfully";
 } else {
     echo "Error creating database: " . $conn->error;
 }
