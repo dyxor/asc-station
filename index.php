@@ -96,6 +96,14 @@ switch ($_POST['action']) {
             break;
         }
 
+        $sql = "SELECT * FROM users WHERE username='". $_POST['tar_user'] . "'";
+        $re = $db->query($sql);
+        if($re->num_rows<1){
+            $result['status'] = 1;
+            $result['data'] = "No target user!";
+            break;
+        }
+
         $sql = "INSERT INTO cmds (username, lockname, type, target)VALUES('". $_POST['user']. "','". $_POST['tar_lock']. "',". $_POST['cmd_type']. ",'". $_POST['tar_user']. "')";
         if(!$db->query($sql)){
             $result['status'] = 1;
