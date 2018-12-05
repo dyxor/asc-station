@@ -63,9 +63,12 @@ $result = [
 
 switch ($_POST['action']) {
     case 'get_user_info':
-        $sql = "SELECT * FROM users WHERE username='". $_POST['user'] . "'";
+        $sql = "SELECT * FROM users";
         $re = $db->query($sql);
-        $result['data'] = $re->fetch_assoc();
+        $result['data'] = [];
+        while($row = $re->fetch_assoc()){
+            $result['data'][] = $row;
+        }
         break;
     
     case 'get_user_lock':
